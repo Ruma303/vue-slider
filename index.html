@@ -16,15 +16,25 @@
 </head>
 <body>
     <body>
-        <div class="container-blur">
+        <div class="container-blur" id="root">
             <div class="contents">
                 <div class="slider">
-                    <div class="slider-viewer"></div>
+                    <div class="slider-viewer">
+                        
+                    </div>
     
                     <div class="thumbs">
+                        <div v-for="(obj,index) in arrImages" :class="slide {active: index === activeIndex}">
+                            <img :src="img/{{obj.image}}" :alt="{{obj.title}}">
+                            <div class="text">
+                                <h2 v-model="{{obj.title}}"></h2>
+                                <p v-model="{{obj.text}}"></p>
+                            </div>
+                        </div>
                         <div class="controls">
                             <button class="btn-up"><i class="fa-solid fa-chevron-up"></i></button>
                             <button class="btn-down"><i class="fa-solid fa-chevron-down"></i></button>
+                            <div class="" v-for="obj in arrImages"></div>
                         </div>
                     </div>
                 </div>

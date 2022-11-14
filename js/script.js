@@ -1,4 +1,7 @@
-const arrImages = [
+const app = new Vue ({
+	el: '#root',
+	data:{ 
+		arrImages : [
 	{
 		image: '01.webp',
 		title: "Marvel's Spiderman Miles Morale",
@@ -24,67 +27,90 @@ const arrImages = [
 		title: "Marvel's Avengers",
 		text: "Marvel's Avengers is an epic, third-person, action-adventure game that combines an original, cinematic story with single-player and co-operative gameplay.",
 	},
-];
+],
+	// il resto dei dati
+	timeSlider : 3 * 1000,
+	direction : 1,
+	activeIndex : 0,
+	idInterval: 0,
+	isAutoplayActive : true,
+	listSlides : document.querySelectorAll('.slide'),
+	listThumbs : document.querySelectorAll('.thumb-img'),
+	eleBtnDown : document.querySelector('.btn-down'),
+	eleBtnUp : document.querySelector('.btn-up'), 
+}, 
+	methods: { 
+		renderSlider(arrImages){},
+		startAutoplay(){},	
+		startAutoplay() {idInterval = setInterval(() => moveSlide(direction), timeSlider)},
+		stopAutoplay() {clearInterval(idInterval)},
+		invertDirection() {direction *= -1;},
+		// togliere la classe active dall'elemento attivo corrente
+		moveSlide(direction) {
+			listSlides[activeIndex].classList.remove('active');
+			listThumbs[activeIndex].classList.remove('active');
+			if (direction > 0) {
+				activeIndex++;
+				if (activeIndex === listSlides.length) {
+					activeIndex = 0;
+				}
+			} else {
+				if (activeIndex === 0) {
+					activeIndex = listSlides.length;
+				}
+				activeIndex--;
+			}},
 
-const timeSlider = 3 * 1000;
-let direction = 1;
-let activeIndex = 0;
-let idInterval;
-let isAutoplayActive = true;
+	// aggiungere la classe active all'elemento successivo
+	// listSlides[activeIndex].classList.add('active');
+	// listThumbs[activeIndex].classList.add('active');
+	// document.body.style.backgroundImage = `url('img/${arrImages[activeIndex].image}')`;
+		
+	},
+	/*events: {
+	document.querySelector('.slider').addEventListener('mouseenter', () => stopAutoplay()),
+	document.querySelector('.slider').addEventListener('mouseleave', () => {
+		if (isAutoplayActive) {
+			startAutoplay();
+		}}),
+		document.querySelector('.btn-invert').addEventListener('click', () => invertDirection()),
+		document.querySelector('.btn-start-stop').addEventListener('click', function() {
+			if (isAutoplayActive) {
+				stopAutoplay();
+				isAutoplayActive = false;
+				this.innerHTML = 'Start';
+			} else {
+				startAutoplay();
+				isAutoplayActive = true;
+				this.innerHTML = 'Stop';
+			}}),
+			eleBtnDown.addEventListener('click', () => moveSlide(1)),
+			eleBtnUp.addEventListener('click', () => moveSlide(-1)),
+			
+			listThumbs.forEach((eleThumb, index) => {
+				eleThumb.addEventListener('click', () => {
+					listSlides[activeIndex].classList.remove('active');
+					listThumbs[activeIndex].classList.remove('active');
+					activeIndex = index;
+					listSlides[activeIndex].classList.add('active');
+					listThumbs[activeIndex].classList.add('active');
+					document.body.style.backgroundImage = `url('img/${arrImages[activeIndex].image}')`,
+				})
+			}),
+	}*/
+})
 
-renderSlider(arrImages);
-startAutoplay();
 
 
-// EVENT LISTENERS
 
-// per disattivare l'autoslider se ci troviamo con il mouse sopra
-document.querySelector('.slider').addEventListener('mouseenter', () => stopAutoplay());
-// per riattivare l'autoslider quando spostiamo il mouse fuori dallo slider
-document.querySelector('.slider').addEventListener('mouseleave', () => {
-	if (isAutoplayActive) {
-		startAutoplay();
-	}
-});
 
-document.querySelector('.btn-invert').addEventListener('click', () => invertDirection());
 
-document.querySelector('.btn-start-stop').addEventListener('click', function() {
-	if (isAutoplayActive) {
-		stopAutoplay();
-		isAutoplayActive = false;
-		this.innerHTML = 'Start';
-	} else {
-		startAutoplay();
-		isAutoplayActive = true;
-		this.innerHTML = 'Stop';
-	}
-});
-
-const listSlides = document.querySelectorAll('.slide');
-
-const listThumbs = document.querySelectorAll('.thumb-img');
-listThumbs.forEach((eleThumb, index) => {
-	eleThumb.addEventListener('click', () => {
-		listSlides[activeIndex].classList.remove('active');
-		listThumbs[activeIndex].classList.remove('active');
-		activeIndex = index;
-		listSlides[activeIndex].classList.add('active');
-		listThumbs[activeIndex].classList.add('active');
-		document.body.style.backgroundImage = `url('img/${arrImages[activeIndex].image}')`;
-	})
-});
-
-// aggiungere gli event listeners ai due bottoni
-const eleBtnDown = document.querySelector('.btn-down');
-eleBtnDown.addEventListener('click', () => moveSlide(1));
-
-const eleBtnUp = document.querySelector('.btn-up');
-eleBtnUp.addEventListener('click', () => moveSlide(-1));
 
 // FUNCTIONS
 
-function renderSlider(arrImages) {
+// sposto la funzione render slide dentro il vue
+
+/*function renderSlider(arrImages) {
 	const eleSliderViewer = document.querySelector('.slider-viewer');
 	const eleSliderThumbs = document.querySelector('.thumbs');
 
@@ -104,39 +130,9 @@ function renderSlider(arrImages) {
 			</div>
 		`
 	}
-}
+}*/
 
-function startAutoplay() {
-	idInterval = setInterval(() => moveSlide(direction), timeSlider);
-}
 
-function stopAutoplay() {
-	clearInterval(idInterval);
-}
 
-function invertDirection() {
-	direction *= -1; // 1  * -1 = -1; -1 * -1 = 1
-}
 
-function moveSlide(direction) {
-	// togliere la classe active dall'elemento attivo corrente
-	listSlides[activeIndex].classList.remove('active');
-	listThumbs[activeIndex].classList.remove('active');
 
-	if (direction > 0) {
-		activeIndex++;
-		if (activeIndex === listSlides.length) {
-			activeIndex = 0;
-		}
-	} else {
-		if (activeIndex === 0) {
-			activeIndex = listSlides.length;
-		}
-		activeIndex--;
-	}
-
-	// aggiungere la classe active all'elemento successivo
-	listSlides[activeIndex].classList.add('active');
-	listThumbs[activeIndex].classList.add('active');
-	document.body.style.backgroundImage = `url('img/${arrImages[activeIndex].image}')`;
-}
