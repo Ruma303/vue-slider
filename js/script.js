@@ -34,12 +34,9 @@ const app = new Vue ({
 	activeIndex : 0,
 	idInterval: 0,
 	isAutoplayActive : true,
-	listSlides : document.querySelectorAll('.slide'),
-	listThumbs : document.querySelectorAll('.thumb-img'),
-	eleBtnDown : document.querySelector('.btn-down'),
-	eleBtnUp : document.querySelector('.btn-up'), 
 }, 
-methods: { 
+methods: {
+	changeSlide() {}, 
 	startAutoplay() {setInterval(this.element, 3000)}, //quasi ok
 	stopAutoplay() {clearInterval(idInterval)}, //ok
 
