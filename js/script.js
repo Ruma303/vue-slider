@@ -39,34 +39,33 @@ const app = new Vue ({
 	eleBtnDown : document.querySelector('.btn-down'),
 	eleBtnUp : document.querySelector('.btn-up'), 
 }, 
-	methods: { 
-		renderSlider(arrImages){},
-		startAutoplay(){},	
-		startAutoplay() {idInterval = setInterval(() => moveSlide(direction), timeSlider)},
-		stopAutoplay() {clearInterval(idInterval)},
-		invertDirection() {direction *= -1;},
-		// togliere la classe active dall'elemento attivo corrente
-		moveSlide(direction) {
-			listSlides[activeIndex].classList.remove('active');
-			listThumbs[activeIndex].classList.remove('active');
-			if (direction > 0) {
-				activeIndex++;
-				if (activeIndex === listSlides.length) {
-					activeIndex = 0;
-				}
-			} else {
-				if (activeIndex === 0) {
-					activeIndex = listSlides.length;
-				}
-				activeIndex--;
-			}},
+methods: { 
+	startAutoplay() {setInterval(this.element, 3000)}, //quasi ok
+	stopAutoplay() {clearInterval(idInterval)}, //ok
 
+	renderSlider(arrImages){},
+	invertDirection() {direction *= -1;},
+	// togliere la classe active dall'elemento attivo corrente
+	moveSlide(direction) {
+		listSlides[activeIndex].classList.remove('active');
+		listThumbs[activeIndex].classList.remove('active');
+		if (direction > 0) {
+			activeIndex++;
+			if (activeIndex === listSlides.length) {
+				activeIndex = 0;
+			}
+		} else {
+			if (activeIndex === 0) {
+				activeIndex = listSlides.length;
+			}
+			activeIndex--;
+		}},
+
+	},
 	// aggiungere la classe active all'elemento successivo
 	// listSlides[activeIndex].classList.add('active');
 	// listThumbs[activeIndex].classList.add('active');
 	// document.body.style.backgroundImage = `url('img/${arrImages[activeIndex].image}')`;
-		
-	},
 	/*events: {
 	document.querySelector('.slider').addEventListener('mouseenter', () => stopAutoplay()),
 	document.querySelector('.slider').addEventListener('mouseleave', () => {
@@ -108,7 +107,6 @@ const app = new Vue ({
 
 // FUNCTIONS
 
-// sposto la funzione render slide dentro il vue
 
 /*function renderSlider(arrImages) {
 	const eleSliderViewer = document.querySelector('.slider-viewer');
