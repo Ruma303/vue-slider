@@ -33,101 +33,41 @@ const app = new Vue ({
 	direction : 1,
 	activeIndex : 0,
 	idInterval: 0,
-	isAutoplayActive : true,
+	isAutoplayActive : true, //serve a decidere se l'autoplay è attivo
 }, 
 methods: {
-	changeSlide() {}, 
-	startAutoplay() {setInterval(this.element, 3000)}, //quasi ok
-	stopAutoplay() {clearInterval(idInterval)}, //ok
-
-	renderSlider(arrImages){},
-	invertDirection() {direction *= -1;},
-	// togliere la classe active dall'elemento attivo corrente
-	moveSlide(direction) {
-		listSlides[activeIndex].classList.remove('active');
-		listThumbs[activeIndex].classList.remove('active');
+	changeSlide(direction) {
 		if (direction > 0) {
-			activeIndex++;
-			if (activeIndex === listSlides.length) {
-				activeIndex = 0;
+			//active index non si trova nella funzione, quindi la richiami col this
+			this.activeIndex++; //andare avanti
+			if (this.activeIndex === this.arrImages.length) {
+				this.activeIndex = 0;
 			}
 		} else {
-			if (activeIndex === 0) {
-				activeIndex = listSlides.length;
-			}
-			activeIndex--;
-		}},
-
-	},
-	// aggiungere la classe active all'elemento successivo
-	// listSlides[activeIndex].classList.add('active');
-	// listThumbs[activeIndex].classList.add('active');
-	// document.body.style.backgroundImage = `url('img/${arrImages[activeIndex].image}')`;
-	/*events: {
-	document.querySelector('.slider').addEventListener('mouseenter', () => stopAutoplay()),
-	document.querySelector('.slider').addEventListener('mouseleave', () => {
-		if (isAutoplayActive) {
+			if (this.activeIndex === 0) {
+				this.activeIndex = this.arrImages.length;
+			} this.activeIndex--; //andare indietro
+		}
+	}, setActiveIndex(index) {
+		this.activeIndex = index;
+	}, autoPlay() {
+		if(this.autoPlay) {
+			this.stopAutoplay();
+		} else {
 			startAutoplay();
-		}}),
-		document.querySelector('.btn-invert').addEventListener('click', () => invertDirection()),
-		document.querySelector('.btn-start-stop').addEventListener('click', function() {
-			if (isAutoplayActive) {
-				stopAutoplay();
-				isAutoplayActive = false;
-				this.innerHTML = 'Start';
-			} else {
-				startAutoplay();
-				isAutoplayActive = true;
-				this.innerHTML = 'Stop';
-			}}),
-			eleBtnDown.addEventListener('click', () => moveSlide(1)),
-			eleBtnUp.addEventListener('click', () => moveSlide(-1)),
-			
-			listThumbs.forEach((eleThumb, index) => {
-				eleThumb.addEventListener('click', () => {
-					listSlides[activeIndex].classList.remove('active');
-					listThumbs[activeIndex].classList.remove('active');
-					activeIndex = index;
-					listSlides[activeIndex].classList.add('active');
-					listThumbs[activeIndex].classList.add('active');
-					document.body.style.backgroundImage = `url('img/${arrImages[activeIndex].image}')`,
-				})
-			}),
-	}*/
-})
+		}
+	}, stopAutoplay () {
+		clearInterval(this.direction);
+		this.isAutoplayActive = false;
+	}, startAutoplay () {
+		this.idInterval = setInterval(() => this.changeSlide(this.direction), this.timeSlider);
+		this.isAutoplayActive = true;
+	}, invertPlay () {
+		this.direction *= -1;
+	},
 
-
-
-
-
-
-
-// FUNCTIONS
-
-
-/*function renderSlider(arrImages) {
-	const eleSliderViewer = document.querySelector('.slider-viewer');
-	const eleSliderThumbs = document.querySelector('.thumbs');
-
-	document.body.style.backgroundImage = `url('img/${arrImages[activeIndex].image}')`;
-	// creare i tag immagine nell'html
-	for (let i = 0; i < arrImages.length; i++) {
-		const objSlide = arrImages[i];
-		// creare le slide
-		eleSliderThumbs.innerHTML = eleSliderThumbs.innerHTML + `<img src="img/${objSlide.image}" class="thumb-img ${i === 0 ? 'active' : ''}">`;
-		eleSliderViewer.innerHTML += `
-			<div class="slide ${i === 0 ? 'active' : ''}">
-				<img src="img/${objSlide.image}" alt="${objSlide.title}">
-				<div class="text">
-					<h2>${objSlide.title}</h2>
-					<p>${objSlide.text}</p>
-				</div>
-			</div>
-		`
-	}
-}*/
-
-
+}
+});
 
 
 

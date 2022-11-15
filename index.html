@@ -15,18 +15,11 @@
     <script src="js/script.js" defer></script>
 </head>
 <body>
-    <body>
-        <div class="container-blur" id="root">
-            <div class="contents">
-                <div class="slider">
-                    <div class="slider-viewer">
-                        <div class="controls">
-                            <button class="btn-up" @click="changeSlide(-1)"><i class="fa-solid fa-chevron-up"></i></button>
-                            <button class="btn-down" @click="changeSlide(1)"><i class="fa-solid fa-chevron-down"></i></button>
-                        </div>
-                    </div>
-                    
-                    <div v-for="(obj,index) in arrImages" class="slide" :class="index === activeIndex ? 'active' : ''">
+    <div class="container-blur" id="root">
+        <div class="contents" :style="{backgroundImage: `url('img/${arrImages[activeIndex].image}')`}">
+            <div class="slider">
+                <div class="slider-viewer">               
+                    <div v-for="(obj,index) in arrImages" :key="obj.images" class="slide" :class="index === activeIndex ? 'active' : ''">
                         <img :src="'img/' + obj.image" :alt="obj.title">
                         <div class="text">
                             <h2>{{obj.title}}</h2>
@@ -34,13 +27,25 @@
                         </div>
                     </div>
                 </div>
-    
-                <div class="btns">
-                    <button class="btn-start-stop" data-functionality="stop">Stop</button>
-                    <button class="btn-invert">Invert</button>
+                <div class="thumbs">
+                    <img 
+                        v-for="(obj, index) in arrImages" 
+                        :src="'img/' + obj.image" 
+                        class="thumb-img" 
+                        :class="{active: index === activeIndex}" 
+                        :alt="obj.title"
+                        @click="setActiveIndex(index)">
+                    <div class="controls">
+                        <button class="btn-up" @click="changeSlide(-1)"><i class="fa-solid fa-chevron-up"></i></button>
+                        <button class="btn-down" @click="changeSlide(1)"><i class="fa-solid fa-chevron-down"></i></button>
+                    </div>
                 </div>
             </div>
+            <div class="btns">
+                <button class="btn-start-stop" @click="autoPlay">{{ isAutoplayActive ? 'Stop' : 'Start'}}</button>
+                <button class="btn-invert" @click="invertPlay">Invert</button>
+            </div>
         </div>
-    </body>
+    </div>
 </body>
 </html>
