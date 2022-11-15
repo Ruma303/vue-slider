@@ -1,5 +1,8 @@
 const app = new Vue ({
 	el: '#root',
+	mounted ()  {//appena l'interfaccia è costruita
+		this.autoPlay();//fai partire questa funzione
+	},
 	data:{ 
 		arrImages : [
 	{
@@ -65,8 +68,7 @@ methods: {
 	}, invertPlay () {
 		this.direction *= -1;
 	},
-
-}
+}, 
 });
 
 
